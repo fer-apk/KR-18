@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colchoneta MBI | Producto</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        /* BARRA SUPERIOR */
+        .top-bar {
+            background-color: #666;
+            color: white;
+            padding: 15px 0;
+            position: relative;
+        }
+
+        .top-bar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        /* BOTÓN VOLVER */
+        .back-button {
+            background-color: #4a4a4a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #333;
+        }
+
+        /* TEXTO DE LA BARRA SUPERIOR - CAMBIAR AQUÍ */
+        .top-bar-text {
+            font-size: 18px;
+            font-weight: normal;
+        }
+
+        /* CONTENEDOR PRINCIPAL */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        /* SECCIÓN DE IMÁGENES */
+        .image-section {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* THUMBNAILS LATERALES */
+        .thumbnails {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: border-color 0.3s;
+            object-fit: cover;
+        }
+
+        .thumbnail:hover,
+        .thumbnail.active {
+            border-color: #666;
+        }
+
+        /* IMAGEN PRINCIPAL */
+        .main-image-container {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .main-image {
+            width: 100%;
+            height: auto;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        /* SECCIÓN DE INFORMACIÓN DEL PRODUCTO */
+        .product-info {
+            padding: 20px 0;
+        }
+
+        /* TÍTULO DEL PRODUCTO - CAMBIAR AQUÍ */
+        .product-title {
+            font-size: 48px;
+            font-weight: bold;
+            color: #666;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        /* SUBTÍTULO DEL PRODUCTO - CAMBIAR AQUÍ */
+        .product-subtitle {
+            font-size: 24px;
+            color: #888;
+            margin-bottom: 40px;
+            font-weight: normal;
+        }
+
+        /* BOTONES DE DESCRIPCIÓN Y ESPECIFICACIONES */
+        .info-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .info-button {
+            background-color: #888;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+
+        .info-button:hover {
+            background-color: #666;
+        }
+
+        .info-button.active {
+            background-color: #666;
+        }
+
+        .arrow {
+            font-size: 20px;
+            transition: transform 0.3s;
+        }
+
+        .info-button.active .arrow {
+            transform: rotate(180deg);
+        }
+
+        /* CONTENIDO DESPLEGABLE */
+        .info-content {
+            display: none;
+            max-height: none;
+            overflow: visible;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .info-content.active {
+            display: block;
+            padding: 20px;
+        }
+
+        /* ICONOS DE CARACTERÍSTICAS */
+        .features {
+            display: flex;
+            justify-content: space-around;
+            margin: 40px 0;
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .feature {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background-color: #90EE90;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .feature-text {
+            font-size: 14px;
+            color: #666;
+            font-weight: bold;
+        }
+
+        /* OPCIONES DE COLOR */
+        .color-options {
+            margin: 30px 0;
+        }
+
+        .color-title {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .color-circles {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .color-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .color-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 3px solid #ddd;
+            transition: border-color 0.3s;
+        }
+
+        .color-option:hover .color-circle,
+        .color-option.selected .color-circle {
+            border-color: #666;
+        }
+
+        .color-white {
+            background-color: #fff;
+        }
+
+        .color-gray {
+            background-color: #888;
+        }
+
+        .color-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* BOTONES DE ACCIÓN */
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .download-btn {
+            background-color: #f0f0f0;
+            color: #666;
+            border: 2px solid #ddd;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .download-btn:hover {
+            background-color: #e0e0e0;
+            border-color: #999;
+        }
+
+        .quote-btn {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: background-color 0.3s;
+        }
+
+        .quote-btn:hover {
+            background-color: #0052a3;
+        }
+
+        /* ETIQUETA DE PRECIO ESPECIAL */
+        .price-tag {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            background-color: #90EE90;
+            color: #333;
+            padding: 20px 30px;
+            /* Estado inicial fuera de pantalla para animar entrada */
+            transform: translateX(-120%) rotate(-5deg);
+            opacity: 0;
+            font-weight: bold;
+            font-size: 16px;
+            border-radius: 0 10px 10px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            text-decoration-thickness: 2px;
+            text-decoration-color: #0066cc;
+        }
+
+        /* Clase para ejecutar la entrada después del timeout */
+        .price-tag.animate-in {
+            animation: slideInPriceTag 0.7s ease-out forwards;
+        }
+
+        @keyframes slideInPriceTag {
+            0% {
+                transform: translateX(-120%) rotate(-5deg);
+                opacity: 0;
+            }
+            60% {
+                transform: translateX(10px) rotate(-5deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(0) rotate(-5deg);
+                opacity: 1;
+            }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                padding: 20px;
+            }
+
+            .image-section {
+                flex-direction: column;
+            }
+
+            .thumbnails {
+                flex-direction: row;
+                overflow-x: auto;
+            }
+
+            .thumbnail {
+                min-width: 80px;
+            }
+
+            .product-title {
+                font-size: 36px;
+            }
+
+            .features {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .top-bar-content {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- BARRA SUPERIOR -->
+    <header class="top-bar">
+        <div class="top-bar-content">
+            <!-- BOTÓN VOLVER - NO CAMBIAR -->
+            <a href="../index.html" class="back-button">← Volver</a>
+            
+            <!-- TEXTO DE LA BARRA SUPERIOR - CAMBIAR ESTE TEXTO -->
+            <div class="top-bar-text">Alta calidad en nuestros productos | Precio competitivo</div>
+        </div>
+    </header>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <main class="main-container">
+        <!-- SECCIÓN DE IMÁGENES -->
+        <section class="image-section">
+            <!-- THUMBNAILS LATERALES - CAMBIAR SRC DE LAS IMÁGENES -->
+            <div class="thumbnails">
+                <img src="../images/imagenes productos/colchoneta-mbi/imagen-1.webp" 
+                     alt="Colchoneta MBI vista 1" class="thumbnail active" onclick="changeMainImage(this.src, this)">
+                <img src="../images/imagenes productos/colchoneta-mbi/imagen-2.webp" 
+                     alt="Colchoneta MBI vista 2" class="thumbnail" onclick="changeMainImage(this.src, this)">
+                <img src="../images/imagenes productos/colchoneta-mbi/imagen-3.webp" 
+                     alt="Colchoneta MBI vista 3" class="thumbnail" onclick="changeMainImage(this.src, this)">
+            </div>
+
+            <!-- IMAGEN PRINCIPAL - CAMBIAR SRC DE LA IMAGEN -->
+            <div class="main-image-container">
+                <img src="../images/imagenes productos/colchoneta-mbi/imagen-1.webp" 
+                     alt="Colchoneta MBI" class="main-image" id="mainImage">
+            </div>
+        </section>
+
+        <!-- SECCIÓN DE INFORMACIÓN DEL PRODUCTO -->
+        <section class="product-info">
+            <!-- TÍTULO DEL PRODUCTO - CAMBIAR ESTE TEXTO -->
+            <h1 class="product-title">Colchoneta MBI</h1>
+            
+            <!-- SUBTÍTULO DEL PRODUCTO - CAMBIAR ESTE TEXTO -->
+            <h2 class="product-subtitle">La colchoneta MBI es un aislamiento térmico y acústico fabricado con fibra de vidrio</h2>
+
+            <!-- BOTONES DE INFORMACIÓN -->
+            <div class="info-buttons">
+                <!-- BOTÓN DESCRIPCIÓN -->
+                <button class="info-button" onclick="toggleInfo('description', this)">
+                    DESCRIPCIÓN
+                    <span class="arrow">▼</span>
+                </button>
+                <!-- CONTENIDO DESCRIPCIÓN - CAMBIAR ESTE TEXTO -->
+                <div class="info-content" id="description">
+                    <p>Este aislamiento está diseñado para colocarse en cubiertas metálicas, muros y sistemas de aire acondicionado. Su recubrimiento de vinil actúa como barrera de vapor, aumentando su capacidad de control térmico y evitando la condensación. Además, su estructura fibrosa reduce la transmisión del ruido, mejorando el confort en interiores.</p>
+                </div>
+
+                <!-- BOTÓN ESPECIFICACIONES -->
+                <button class="info-button" onclick="toggleInfo('specifications', this)">
+                    ESPECIFICACIONES
+                    <span class="arrow">▼</span>
+                </button>
+                <!-- CONTENIDO ESPECIFICACIONES - CAMBIAR ESTE TEXTO -->
+                <div class="info-content" id="specifications">
+                    <ul style="list-style: none; padding: 0;">
+                        <li><strong>Tipo de aislamiento:</strong> Fibra de vidrio en manta</li>
+                        <li><strong>Presentación:</strong> Rollos con recubrimiento de aluminio reforzado</li>
+                        <li><strong>Espesor disponible:</strong> 2” – 3” – 4”</li>
+                        <li><strong>Densidad:</strong> 10 – 16 kg/m³ (según especificación del proyecto)</li>
+                        <li><strong>Conductividad térmica:</strong> 0.039 W/m·K aprox.</li>
+                        <li><strong>Dimensiones:</strong> Rollos de 1.27 m y 1.83 m de ancho, longitud 30.48 m y 15.24 m</li>
+                        <li><strong>Instalación:</strong> Ligera y flexible para colocación en cubiertas y muros con fijaciones mecánicas o adhesivos</li>
+                    </ul>
+                    <h3 style="margin:16px 0 8px; color:#666; font-size:16px;">Usos recomendados:</h3>
+                    <ul style="margin-left:18px; line-height:1.6;">
+                        <li>Aislamiento en cubiertas metálicas de naves industriales</li>
+                        <li>Muros y cerramientos para control térmico y acústico</li>
+                        <li>Auditorios, cines y espacios con requerimientos acústicos</li>
+                        <li>Proyectos residenciales, comerciales e institucionales</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- ICONOS DE CARACTERÍSTICAS -->
+            <div class="features">
+                <!-- INVENTARIO DISPONIBLE -->
+                <div class="feature">
+                    <div class="feature-icon">✓</div>
+                    <div class="feature-text">Inventario<br>disponible</div>
+                </div>
+
+                <!-- ENVÍO INMEDIATO -->
+                <div class="feature">
+                    <div class="feature-icon">🚚</div>
+                    <div class="feature-text">Envío<br>Inmediato</div>
+                </div>
+
+                <!-- PRECIO COMPETITIVO -->
+                <div class="feature">
+                    <div class="feature-icon">💰</div>
+                    <div class="feature-text">Precio<br>Competitivo</div>
+                </div>
+            </div>
+
+            <!-- OPCIONES DE COLOR - SI NO HAY COLORES, OCULTAR ESTA SECCIÓN -->
+            <div class="color-options">
+                <div class="color-title">Colores disponibles:</div>
+                <div class="color-circles">
+                    <div class="color-option selected" onclick="selectColor(this)">
+                        <div class="color-circle color-white"></div>
+                        <div class="color-label">Pintro</div>
+                    </div>
+                    <div class="color-option" onclick="selectColor(this)">
+                        <div class="color-circle color-gray"></div>
+                        <div class="color-label">Galvanizado</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOTONES DE ACCIÓN -->
+            <div class="action-buttons">
+                <!-- BOTÓN DESCARGAR FICHA TÉCNICA - CAMBIAR HREF -->
+                <a href="#" class="download-btn">DESCARGAR FICHA TÉCNICA</a>
+                
+                <!-- BOTÓN COTIZAR - CAMBIAR ONCLICK O HREF -->
+                <button class="quote-btn" onclick="requestQuote()">COTIZAR MI PROYECTO</button>
+            </div>
+        </section>
+
+        <!-- ETIQUETA DE PRECIO ESPECIAL -->
+        <div class="price-tag" id="priceTag" role="button" aria-label="Precio especial, contáctanos por WhatsApp">
+            Precio<br>Especial
+        </div>
+    </main>
+
+    <script>
+        // FUNCIÓN PARA CAMBIAR IMAGEN PRINCIPAL
+        function changeMainImage(src, thumbnail) {
+            document.getElementById('mainImage').src = src;
+            
+            // Remover clase active de todos los thumbnails
+            document.querySelectorAll('.thumbnail').forEach(thumb => {
+                thumb.classList.remove('active');
+            });
+            
+            // Agregar clase active al thumbnail seleccionado
+            thumbnail.classList.add('active');
+        }
+
+        // FUNCIÓN PARA ALTERNAR INFORMACIÓN (DESCRIPCIÓN/ESPECIFICACIONES)
+        function toggleInfo(contentId, button) {
+            const content = document.getElementById(contentId);
+            const isActive = content.classList.contains('active');
+            
+            // Cerrar todas las secciones
+            document.querySelectorAll('.info-content').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.querySelectorAll('.info-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Si no estaba activa, abrirla
+            if (!isActive) {
+                content.classList.add('active');
+                button.classList.add('active');
+            }
+        }
+
+        // FUNCIÓN PARA SELECCIONAR COLOR
+        function selectColor(option) {
+            document.querySelectorAll('.color-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            option.classList.add('selected');
+        }
+
+        // FUNCIÓN PARA COTIZAR - CAMBIAR ESTA FUNCIÓN SEGÚN TUS NECESIDADES
+        function requestQuote() {
+            alert('Función de cotización - Personalizar según necesidades');
+            // Aquí puedes agregar la lógica para abrir un formulario, 
+            // redirigir a WhatsApp, email, etc.
+        }
+
+        // FUNCIÓN PARA ABRIR WHATSAPP
+        function openWhatsApp() {
+            const phoneNumber = '523121314000'; // Número con código de país de México
+            const message = encodeURIComponent('¡Hola! Me interesa conocer más sobre sus precios especiales. ¿Podrían darme más información?');
+            const whatsappURL = `https://wa.me/${phoneNumber}?text=${message}`;
+            console.log('Abriendo WhatsApp:', whatsappURL); // Para debug
+            window.open(whatsappURL, '_blank');
+        }
+
+        // INICIALIZACIÓN CUANDO CARGA LA PÁGINA
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Página cargada, iniciando temporizador...'); // Para debug
+            
+            // Configurar el click en la etiqueta de precio
+            const priceTag = document.getElementById('priceTag');
+            if (priceTag) {
+                priceTag.addEventListener('click', function() {
+                    console.log('Click en precio especial'); // Para debug
+                    openWhatsApp();
+                });
+            }
+
+            // Mostrar la etiqueta después de 5 segundos
+            setTimeout(function() {
+                console.log('Mostrando etiqueta de precio...'); // Para debug
+                const priceTag = document.getElementById('priceTag');
+                if (priceTag) {
+                    priceTag.classList.add('animate-in');
+                }
+            }, 5000); // 5000ms = 5 segundos
+        });
+    </script>
+</body>
+</html>
