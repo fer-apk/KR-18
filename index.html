@@ -77,7 +77,16 @@
         .menu-item:hover { background: rgba(255,255,255,0.08); }
         .menu-sep { height: 1px; background: rgba(255,255,255,0.12); margin: 8px 6px; border-radius: 1px; }
         @media (max-width: 768px) {
-            .dropdown-menu { position: fixed; left: 12px; right: 12px; top: auto; bottom: 12px; max-height: 50vh; overflow: auto; }
+            /* En móvil, el menú cae hacia abajo debajo del botón */
+            .dropdown-menu {
+                position: absolute;
+                top: calc(100% + 8px);
+                left: 0;
+                right: 0;
+                max-height: 60vh;
+                overflow: auto;
+                z-index: 4000;
+            }
         }
 
         body {
@@ -450,6 +459,8 @@
             .nav-container {
                 justify-content: space-between;
                 align-items: center;
+                flex-wrap: wrap; /* permite que los elementos bajen a la siguiente línea */
+                gap: 8px;
             }
 
             .logo-image {
@@ -458,22 +469,26 @@
             }
 
             .phone {
-                position: absolute;
-                left: 50%;
-                transform: translateX(-50%);
+                position: static; /* evita solapar y bloquear clics */
+                left: auto;
+                transform: none;
                 font-size: 14px;
-                margin-top: 5px;
+                margin-top: 4px;
                 background: rgba(255, 255, 255, 0.1);
-                padding: 5px 15px;
+                padding: 6px 14px;
                 border-radius: 20px;
                 backdrop-filter: blur(10px);
                 color: white;
                 text-decoration: none;
-                
+                width: 100%;
+                justify-content: flex-end; /* alinear a la derecha */
+                text-align: right; /* respaldo para contenido inline */
             }
 
             .nav-links {
                 flex-shrink: 0;
+                width: 100%;
+                justify-content: center;
             }
 
             .dropdown-toggle {
@@ -755,25 +770,46 @@
             const toggle = dropdown.querySelector('.dropdown-toggle');
             const menu = dropdown.querySelector('.dropdown-menu');
             let hoverIntent;
+            let justOpened = false; // evita "tap-through" en móvil
 
-            function open(){ dropdown.setAttribute('aria-expanded','true'); toggle.setAttribute('aria-expanded','true'); }
-            function close(){ dropdown.setAttribute('aria-expanded','false'); toggle.setAttribute('aria-expanded','false'); }
+            function open(){
+                dropdown.setAttribute('aria-expanded','true');
+                toggle.setAttribute('aria-expanded','true');
+                justOpened = true;
+                setTimeout(()=>{ justOpened = false; }, 250); // pequeña ventana para bloquear clic inmediato
+            }
+            function close(){
+                dropdown.setAttribute('aria-expanded','false');
+                toggle.setAttribute('aria-expanded','false');
+                justOpened = false;
+            }
 
-            // Open on hover (desktop)
-            dropdown.addEventListener('mouseenter', ()=>{ clearTimeout(hoverIntent); open(); });
-            dropdown.addEventListener('mouseleave', ()=>{ hoverIntent = setTimeout(close, 120); });
+            // Open on hover (solo en desktop con puntero fino)
+            if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+                dropdown.addEventListener('mouseenter', ()=>{ clearTimeout(hoverIntent); open(); });
+                dropdown.addEventListener('mouseleave', ()=>{ hoverIntent = setTimeout(close, 120); });
+            }
 
-            // Toggle on click (mobile/any)
-            toggle.addEventListener('click', (e)=>{ e.preventDefault();
+            // Toggle on click / touch
+            toggle.addEventListener('click', (e)=>{
+                e.preventDefault();
+                e.stopPropagation();
                 const expanded = dropdown.getAttribute('aria-expanded') === 'true';
                 expanded ? close() : open();
             });
 
-            // Close on outside click or overlay click
-            document.addEventListener('click', (e)=>{
-                if (!dropdown.contains(e.target)) {
-                    close();
+            // Bloquea selección inmediata tras abrir (móvil)
+            menu.addEventListener('click', (e)=>{
+                if (justOpened) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
                 }
+            }, true);
+
+            // Close on outside click
+            document.addEventListener('click', (e)=>{
+                if (!dropdown.contains(e.target)) close();
             });
 
             // Keyboard accessibility
