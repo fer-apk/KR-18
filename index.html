@@ -112,7 +112,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 20px;
+            padding: 0 10px;
+            height: 100px;
         }
 
         .logo-image {
@@ -128,11 +129,11 @@
             gap: 30px;
             align-items: center;
         }
-
+      /* para editar el slidedown de los productos */
         .nav-links a {
             color: white;
             text-decoration: none;
-            font-size: 16px;
+            font-size: 30px;
             transition: color 0.3s ease;
             position: relative;
         }
@@ -161,7 +162,7 @@
             align-items: center;
             color: white;
             font-weight: bold;
-            font-size: 18px;
+            font-size: 30px;
         }
 
         /* Asegura que el enlace del teléfono sea blanco en todos los estados */
@@ -473,22 +474,23 @@
                 left: auto;
                 transform: none;
                 font-size: 14px;
-                margin-top: 4px;
+                margin-top: -44px;
+                margin-left: 270px;
                 background: rgba(255, 255, 255, 0.1);
                 padding: 6px 14px;
                 border-radius: 20px;
                 backdrop-filter: blur(10px);
                 color: white;
                 text-decoration: none;
-                width: 100%;
-                justify-content: flex-end; /* alinear a la derecha */
-                text-align: right; /* respaldo para contenido inline */
+                width: 30%;
             }
 
             .nav-links {
                 flex-shrink: 0;
                 width: 100%;
                 justify-content: center;
+                margin-right: 200px;
+                margin-top: -70px;
             }
 
             .dropdown-toggle {
@@ -498,18 +500,20 @@
                 border: 1px solid rgba(255, 255, 255, 0.2);
                 backdrop-filter: blur(10px);
                 font-size: 14px;
+                
             }
 
             .dropdown[aria-expanded="true"]::before {
                 content: '';
                 position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
+                top: 30px;
+                left: 30px;
+                right: 30px;
+                bottom: 30px;
                 background: rgba(0, 0, 0, 0.5);
                 backdrop-filter: blur(5px);
                 z-index: 2999;
+                size: cover;
             }
 
             .hero-content {
